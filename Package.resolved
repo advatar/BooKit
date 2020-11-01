@@ -3,7 +3,7 @@
     "pins": [
       {
         "package": "CalendarKit",
-        "repositoryURL": "https://github.com/advatar/CalendarKit",
+        "repositoryURL": "https://github.com/richardtop/CalendarKit",
         "state": {
           "branch": "master",
           "revision": "758805f324fb8ee174f38fa902981fda608fc96b",
