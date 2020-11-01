@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CalendarKit
 import EventKit
 import EventKitUI
 
