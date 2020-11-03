@@ -15,7 +15,7 @@ public struct BookingView: UIViewControllerRepresentable {
     public typealias UIViewControllerType = UINavigationController
 
     public init() {}
-    
+
     public func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
@@ -27,6 +27,8 @@ public struct BookingView: UIViewControllerRepresentable {
         nav.delegate = context.coordinator
         return nav
     }
+
+
 
     public func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
 

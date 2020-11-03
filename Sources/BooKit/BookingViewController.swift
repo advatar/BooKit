@@ -9,7 +9,8 @@
 import Foundation
 import UIKit
 import CalendarKit
-
+import EventKit
+import EventKitUI
 import DateToolsSwift
 
 extension TimeChunk {
@@ -39,6 +40,8 @@ public class BookingViewController: DayViewController {
         ["15 min",""],
         ["15 min",""],
     ]
+
+    let eventStore = EKEventStore()
 
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,25 +128,32 @@ public class BookingViewController: DayViewController {
 
     public override func dayViewDidSelectEventView(_ eventView: EventView) {
 
-    guard let descriptor = eventView.descriptor as? Event else {
-      return
-    }
+        guard let descriptor = eventView.descriptor as? Event else {
+            return
+        }
 
-    //unselectReserved()
+        //unselectReserved()
 
-    print("text \(descriptor.text)")
+        print("text \(descriptor.text)")
 
-    if descriptor.text.contains("15 min") {
-        descriptor.text = "RESERVED"
-        descriptor.backgroundColor = .systemRed
-    } else if descriptor.text == "RESERVED" {
-        descriptor.text = "15 min"
-        descriptor.backgroundColor = .systemGreen
-    }
+        if descriptor.text.contains("15 min") {
+            descriptor.text = "RESERVED"
+            descriptor.backgroundColor = .systemRed
+        } else if descriptor.text == "RESERVED" {
+            descriptor.text = "15 min"
+            descriptor.backgroundColor = .systemGreen
+        }
 
-    eventView.updateWithDescriptor(event: descriptor)
+        eventView.updateWithDescriptor(event: descriptor)
 
-    print("Event has been selected: \(descriptor) \(String(describing: descriptor.userInfo))")
+        print("Event has been selected: \(descriptor) \(String(describing: descriptor.userInfo))")
+
+        let event = EKEvent.init(eventStore: self.eventStore)
+        event.title = ""
+        //event.calendar = self.calendar
+        let editEventViewController = EKEventEditViewController()
+        editEventViewController.event = event
+        present(editEventViewController, animated: true, completion: nil)
 
     }
 
