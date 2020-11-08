@@ -59,6 +59,27 @@ class AvailabilityViewController: DayViewController {
         }
     }
 
+    static func createBookingCalendar(eventStore: EKEventStore) -> EKCalendar? {
+
+        var config = Config()
+        let calendar = EKCalendar(for: .event, eventStore: eventStore)
+
+        do {
+            if eventStore.sources.count == 0 { // reproducible after Reset Content and Settings
+                calendar.source = EKSource()
+            } else if let defaultCalendar = eventStore.defaultCalendarForNewEvents {
+                calendar.source = defaultCalendar.source
+            }
+            calendar.title = "Clinic Appointments"
+            try eventStore.saveCalendar(calendar, commit: true)
+            config.appointmentsCalendarIdentifier = calendar.calendarIdentifier
+            return calendar
+        } catch {
+            print("\(error)")
+            return nil
+        }
+    }
+
     func authorizeCalendarAccess() {
 
         let config = Config()

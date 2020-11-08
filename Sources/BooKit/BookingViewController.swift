@@ -42,8 +42,10 @@ public class BookingViewController: DayViewController {
     ]
 
     let eventStore = EKEventStore()
+    public var ekCalendar = EKCalendar()
 
     public override func viewDidLoad() {
+
         super.viewDidLoad()
         title = "Booking"
 
@@ -55,6 +57,8 @@ public class BookingViewController: DayViewController {
             flex
         ]
 
+        ekCalendar = EKCalendar(for: .event, eventStore: eventStore)
+
         navigationController?.setToolbarHidden(false, animated: false)
         setToolbarItems(items, animated: false)
         
@@ -62,6 +66,7 @@ public class BookingViewController: DayViewController {
         dayView.autoScrollToFirstEvent = true
         reloadData()
     }
+
 
     @objc func todayAction() {
         dayView.state?.move(to: Date())
@@ -132,6 +137,8 @@ public class BookingViewController: DayViewController {
             return
         }
 
+
+        print(eventView)
         //unselectReserved()
 
         print("text \(descriptor.text)")
@@ -149,7 +156,10 @@ public class BookingViewController: DayViewController {
         print("Event has been selected: \(descriptor) \(String(describing: descriptor.userInfo))")
 
         let event = EKEvent.init(eventStore: self.eventStore)
-        event.title = ""
+        event.title = "Dr. Mengele"
+        event.startDate = Date()
+        event.availability = .busy
+        event.endDate = Date()
         //event.calendar = self.calendar
         let editEventViewController = EKEventEditViewController()
         editEventViewController.event = event
